@@ -43,7 +43,7 @@ namespace WpfApp3
         // 當滑鼠在畫布上釋放按鍵時繪製一條線
         private void myCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            var brush = new SolidColorBrush(strokeColor); // 畫筆刷
+            var brush = new SolidColorBrush(strokeColor); // 改變筆刷顏色
             Line line = new Line
             {
                 X1 = start.X,
