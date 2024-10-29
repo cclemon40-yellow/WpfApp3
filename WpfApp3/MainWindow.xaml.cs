@@ -13,9 +13,9 @@ namespace WpfApp3
 {
     public partial class MainWindow : Window
     {
-        // 畫筆顏色
+        // 畫筆顏色初始為黑
         Color strokeColor = Colors.Black;
-        // 畫筆刷
+        // 筆刷顏色初始為黑
         Brush strokeBrush = Brushes.Black;
         // 起點和終點
         Point start, dest;
