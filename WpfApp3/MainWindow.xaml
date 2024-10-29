@@ -3,10 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp3"
+        xmlns:local="clr-namespace:WpfApp3" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="WPF小畫家ver1" Height="450" Width="800">
     <Grid>
+        <DockPanel LastChildFill="False">
+            <Menu Height="30" DockPanel.Dock="Top">
+                <MenuItem Height="25" Header="檔案" VerticalAlignment="Center">
+                    <MenuItem Header="新增畫布"/>
+                    <MenuItem Header="開啟檔案"/>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray Height="40" DockPanel.Dock="Top">
+                <ToolBar Height="38" Width="400" Background="Violet">
+                    <Label Content="筆刷色彩" FontSize="14" VerticalContentAlignment="Center" FontWeight="Bold"/>
+                    <xctk:ColorPicker x:Name="strokeColorPicker" Width="100" SelectedColorChanged="strokeColorPicker_SelectedColorChanged"/>
+                    <StatusBar/>
+                </ToolBar>
+            </ToolBarTray>
+            <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseUp="myCanvas_MouseUp"/>
+            <StatusBar Height="35" DockPanel.Dock="Bottom" Background="LightGray">
+                <StatusBarItem>
+                    <Label x:Name="statusLabel" Content="Ready" FontSize="14"/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Label x:Name="statusPoint" Content="(0, 0) - (0, 0)" FontSize="14"/>
+                </StatusBarItem>
+            </StatusBar>
+        </DockPanel>
 
     </Grid>
 </Window>
