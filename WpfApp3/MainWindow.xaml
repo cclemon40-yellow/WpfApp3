@@ -20,11 +20,29 @@
                     <xctk:ColorPicker x:Name="strokeColorPicker" Width="100" SelectedColorChanged="strokeColorPicker_SelectedColorChanged"/>
                     <Label Content="填滿色彩" FontSize="14" VerticalContentAlignment="Center" FontWeight="Bold"/>
                     <xctk:ColorPicker x:Name="fillColorPicker" Width="100" SelectedColorChanged="fillColorPicker_SelectedColorChanged"/>
-                    <Slider x:Name="strokeThicknessSlider" Width="120" VerticalAlignment="Center" Value="1" Minimum="1" IsSnapToTickEnabled="True" Margin="20,0,0,0"/>
+                    <Slider x:Name="strokeThicknessSlider" Width="120" VerticalAlignment="Center" Value="1" Minimum="1" IsSnapToTickEnabled="True" Margin="20,0,0,0" ValueChanged="strokeThicknessSlider_ValueChanged"/>
                     <Label Content="{Binding Value, ElementName=strokeThicknessSlider}" Width="40" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
                 </ToolBar>
                 <ToolBar Height="40" Width="300" Background="#FF7878E6">
-                    <RadioButton Width="38" Height="38" Background="#FFD3D477"/>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="ShapeButton_Click" Tag="line">
+                        <Image Height="36" Width="36" Source="/line.png"/>
+                    </RadioButton>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="ShapeButton_Click" Tag="rectangle">
+                        <Image Height="36" Width="36" Source="/rectangle.png"/>
+                    </RadioButton>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="ShapeButton_Click" Tag="ellipse">
+                        <Image Height="36" Width="36" Source="/ellipse.png"/>
+                    </RadioButton>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="ShapeButton_Click" Tag="polyline">
+                        <Image Height="36" Width="36" Source="/polyline.png"/>
+                    </RadioButton>
+                    <Separator/>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="EraseButton_Click" Tag="erase">
+                        <Image Height="36" Width="36" Source="/eraser.png"/>
+                    </RadioButton>
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477" Click="ClearButton_Click" Tag="clear">
+                        <Image Height="36" Width="36" Source="/trashcan.png"/>
+                    </RadioButton>
                 </ToolBar>
             </ToolBarTray>
             <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseUp="myCanvas_MouseUp"/>

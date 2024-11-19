@@ -15,16 +15,21 @@ namespace WpfApp3
     {
         // 畫筆顏色初始為黑
         Color strokeColor = Colors.Black;
+        Color fillColor = Colors.Aqua;
         // 筆刷顏色初始為黑
         Brush strokeBrush = Brushes.Black;
+        Brush fillBrush = Brushes.Aqua;
+        int strokeThickness = 1;
         // 起點和終點
         Point start, dest;
+        string shape;
 
         public MainWindow()
         {
             InitializeComponent();
             // 初始化顏色選擇器的顏色
             strokeColorPicker.SelectedColor = strokeColor;
+            fillColorPicker.SelectedColor = fillColor;
         }
 
         // 當滑鼠進入畫布時改變游標
@@ -64,7 +69,29 @@ namespace WpfApp3
 
         private void fillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            
+            fillColor = fillColorPicker.SelectedColor.Value;
+        }
+
+        private void ShapeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as RadioButton;
+            shape = button.Tag.ToString();
+            MessageBox.Show(shape);
+        }
+
+        private void EraseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void strokeThicknessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            strokeThickness = (int) strokeThicknessSlider.Value;
         }
 
         // 當滑鼠在畫布上按下左鍵時記錄起點座標並改變游標
