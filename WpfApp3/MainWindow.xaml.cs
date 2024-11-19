@@ -22,7 +22,7 @@ namespace WpfApp3
         int strokeThickness = 1;
         // 起點和終點
         Point start, dest;
-        string shape;
+        string shapeType = "line";
 
         public MainWindow()
         {
@@ -42,23 +42,40 @@ namespace WpfApp3
         private void myCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             dest = e.GetPosition(myCanvas);
-            statusPoint.Content = $"({Convert.ToInt32(start.X)}, {Convert.ToInt32(start.Y)}) - ({Convert.ToInt32(dest.X)}, {Convert.ToInt32(dest.Y)})";
-        }
-
-        // 當滑鼠在畫布上釋放按鍵時繪製一條線
-        private void myCanvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var brush = new SolidColorBrush(strokeColor); // 改變筆刷顏色
-            Line line = new Line
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                X1 = start.X,
-                Y1 = start.Y,
-                X2 = dest.X,
-                Y2 = dest.Y,
-                Stroke = brush,
-                StrokeThickness = 2 // 線條寬度
-            };
-            myCanvas.Children.Add(line);
+                Point origin;
+                origin.X = Math.Min(start.X, dest.X);
+                origin.Y = Math.Min(start.Y, dest.Y);
+                double width = Math.Abs(start.X - dest.X);
+                double height = Math.Abs(start.Y - dest.Y);
+
+                switch (shapeType)
+                {
+                    case "line":                     /*OfType->在myCanvas的子元素中找出類型是Line的值*/
+                        var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                        line.X2 = dest.X;
+                        line.Y2 = dest.Y;
+                        break;
+                    case "rectangle":
+                        var rectangle = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                        rectangle.Width = width;
+                        rectangle.Height = height;
+                        rectangle.SetValue(Canvas.LeftProperty, origin.X);
+                        rectangle.SetValue(Canvas.TopProperty, origin.Y);
+                        break;
+                    case "ellipse":
+                        var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                        ellipse.Width = width;
+                        ellipse.Height = height;
+                        ellipse.SetValue(Canvas.LeftProperty, origin.X);
+                        ellipse.SetValue(Canvas.TopProperty, origin.Y);
+                        break;
+                    case "polyline":
+                        break;
+                }
+            }
+            statusPoint.Content = $"({Convert.ToInt32(start.X)}, {Convert.ToInt32(start.Y)}) - ({Convert.ToInt32(dest.X)}, {Convert.ToInt32(dest.Y)})";
         }
 
         // 當顏色選擇器的顏色改變時更新畫筆顏色
@@ -74,9 +91,8 @@ namespace WpfApp3
 
         private void ShapeButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as RadioButton;
-            shape = button.Tag.ToString();
-            MessageBox.Show(shape);
+            var targetRadioButton = sender as RadioButton;
+            shapeType = targetRadioButton.Tag.ToString();
         }
 
         private void EraseButton_Click(object sender, RoutedEventArgs e)
@@ -94,11 +110,78 @@ namespace WpfApp3
             strokeThickness = (int) strokeThicknessSlider.Value;
         }
 
+        private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Brush strokeBrush = new SolidColorBrush(strokeColor);
+            Brush fillBrush = new SolidColorBrush(fillColor);
+
+            switch (shapeType)
+            {
+                case "line":
+                    var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                    line.Stroke = strokeBrush;
+                    line.StrokeThickness = strokeThickness;
+                    break;
+                case "rectangle":
+                    var rectangle = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                    rectangle.Stroke = strokeBrush;
+                    rectangle.Fill = fillBrush;
+                    rectangle.StrokeThickness = strokeThickness;
+                    break;
+                case "ellipse":
+                    var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                    ellipse.Stroke = strokeBrush;
+                    ellipse.Fill = fillBrush;
+                    ellipse.StrokeThickness = strokeThickness;
+                    break;
+                case "polyline":
+                    break;
+            }
+        }
+
         // 當滑鼠在畫布上按下左鍵時記錄起點座標並改變游標
         private void myCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             start = e.GetPosition(myCanvas);
             myCanvas.Cursor = Cursors.Cross;
+
+            switch (shapeType)
+            {
+                case "line":
+                    Line line = new Line
+                    {
+                        X1 = start.X,
+                        Y1 = start.Y,
+                        X2 = dest.X,
+                        Y2 = dest.Y,
+                        Stroke = Brushes.Gray,
+                        StrokeThickness = 1
+                    };
+                    myCanvas.Children.Add(line);
+                    break;
+                case "rectangle":
+                    Rectangle rectangle = new Rectangle
+                    {
+                        Stroke = Brushes.Gray,
+                        Fill = Brushes.LightGray
+                    };
+                    myCanvas.Children.Add(rectangle);
+                    rectangle.SetValue(Canvas.LeftProperty, start.X);
+                    rectangle.SetValue(Canvas.TopProperty, start.Y);
+                    break;
+                case "ellipse":
+                    Ellipse ellipse = new Ellipse
+                    {
+                        Stroke = Brushes.Gray,
+                        Fill = Brushes.LightGray
+                    };
+                    myCanvas.Children.Add(ellipse);
+                    ellipse.SetValue(Canvas.LeftProperty, start.X);
+                    ellipse.SetValue(Canvas.TopProperty, start.Y);
+                    break;
+                case "polyline":
+                    break;
+            }
         }
     }
 }

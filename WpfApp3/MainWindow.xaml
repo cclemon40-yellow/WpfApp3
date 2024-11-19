@@ -45,7 +45,7 @@
                     </RadioButton>
                 </ToolBar>
             </ToolBarTray>
-            <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseUp="myCanvas_MouseUp"/>
+            <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseLeftButtonUp="myCanvas_MouseLeftButtonUp"/>
             <StatusBar Height="35" DockPanel.Dock="Bottom" Background="LightGray">
                 <StatusBarItem>
                     <Label x:Name="statusLabel" Content="Ready" FontSize="14"/>
