@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="WPF小畫家ver1" Height="509" Width="836">
+        Title="WPF小畫家ver2" Height="509" Width="866">
     <Grid>
         <DockPanel LastChildFill="False">
             <Menu Height="30" DockPanel.Dock="Top">
@@ -15,10 +15,16 @@
                 </MenuItem>
             </Menu>
             <ToolBarTray Height="40" DockPanel.Dock="Top">
-                <ToolBar Height="38" Width="400" Background="Violet">
+                <ToolBar Height="38" Width="550" Background="Violet">
                     <Label Content="筆刷色彩" FontSize="14" VerticalContentAlignment="Center" FontWeight="Bold"/>
                     <xctk:ColorPicker x:Name="strokeColorPicker" Width="100" SelectedColorChanged="strokeColorPicker_SelectedColorChanged"/>
-                    <StatusBar/>
+                    <Label Content="填滿色彩" FontSize="14" VerticalContentAlignment="Center" FontWeight="Bold"/>
+                    <xctk:ColorPicker x:Name="fillColorPicker" Width="100" SelectedColorChanged="fillColorPicker_SelectedColorChanged"/>
+                    <Slider x:Name="strokeThicknessSlider" Width="120" VerticalAlignment="Center" Value="1" Minimum="1" IsSnapToTickEnabled="True" Margin="20,0,0,0"/>
+                    <Label Content="{Binding Value, ElementName=strokeThicknessSlider}" Width="40" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+                </ToolBar>
+                <ToolBar Height="40" Width="300" Background="#FF7878E6">
+                    <RadioButton Width="38" Height="38" Background="#FFD3D477"/>
                 </ToolBar>
             </ToolBarTray>
             <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseUp="myCanvas_MouseUp"/>

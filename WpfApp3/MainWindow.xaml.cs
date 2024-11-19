@@ -62,6 +62,11 @@ namespace WpfApp3
             strokeColor = strokeColorPicker.SelectedColor.Value;
         }
 
+        private void fillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            
+        }
+
         // 當滑鼠在畫布上按下左鍵時記錄起點座標並改變游標
         private void myCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
