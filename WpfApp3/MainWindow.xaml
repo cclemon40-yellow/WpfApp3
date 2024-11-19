@@ -10,8 +10,7 @@
         <DockPanel LastChildFill="False">
             <Menu Height="30" DockPanel.Dock="Top">
                 <MenuItem Height="25" Header="檔案" VerticalAlignment="Center">
-                    <MenuItem Header="新增畫布"/>
-                    <MenuItem Header="開啟檔案"/>
+                    <MenuItem Header="儲存畫布" Click="SaveCanvas_Click"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray Height="40" DockPanel.Dock="Top">
@@ -48,10 +47,13 @@
             <Canvas x:Name="myCanvas" Background="#FFF5F6D7" DockPanel.Dock="Top" Height="367" MouseEnter="myCanvas_MouseEnter" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseLeftButtonUp="myCanvas_MouseLeftButtonUp"/>
             <StatusBar Height="35" DockPanel.Dock="Bottom" Background="LightGray">
                 <StatusBarItem>
-                    <Label x:Name="statusLabel" Content="Ready" FontSize="14"/>
+                    <Label x:Name="statusAction" Content="Ready" FontSize="14" Margin="30,0,0,0"/>
                 </StatusBarItem>
-                <StatusBarItem>
+                <StatusBarItem Width="200">
                     <Label x:Name="statusPoint" Content="(0, 0) - (0, 0)" FontSize="14"/>
+                </StatusBarItem>
+                <StatusBarItem Width="405">
+                    <Label x:Name="statusShape" Content="" FontSize="14"/>
                 </StatusBarItem>
             </StatusBar>
         </DockPanel>
