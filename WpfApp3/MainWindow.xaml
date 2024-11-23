@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:WpfApp3"
         mc:Ignorable="d"
-        Title="WPF小畫家ver2" Height="509" Width="866">
+        Title="WPF小畫家ver3" Height="509" Width="866">
     <Grid>
         <DockPanel LastChildFill="False">
             <Menu Height="30" DockPanel.Dock="Top">

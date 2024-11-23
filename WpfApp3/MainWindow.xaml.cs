@@ -22,11 +22,11 @@ namespace WpfApp3
         // 筆刷顏色初始為黑
         Brush strokeBrush = Brushes.Black;
         Brush fillBrush = Brushes.Aqua;
-        string shapeType = "line";
-        int strokeThickness = 1;
+        string shapeType = "line"; // 預設形狀為線條
+        int strokeThickness = 1; // 預設筆刷粗細為1
         // 起點和終點
         Point start, dest;
-        string actionType = "draw";
+        string actionType = "draw"; // 預設動作為繪圖
 
         public MainWindow()
         {
@@ -45,65 +45,58 @@ namespace WpfApp3
         // 當滑鼠在畫布上移動時更新終點座標並顯示在狀態欄
         private void myCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            dest = e.GetPosition(myCanvas);
-            DisplayStatus();
-            if (e.LeftButton == MouseButtonState.Pressed)
+            dest = e.GetPosition(myCanvas); // 更新終點座標
+            DisplayStatus(); // 顯示狀態
+
+            switch (actionType)
             {
-                Point origin;
-                origin.X = Math.Min(start.X, dest.X);
-                origin.Y = Math.Min(start.Y, dest.Y);
-                double width = Math.Abs(start.X - dest.X);
-                double height = Math.Abs(start.Y - dest.Y);
+                case "draw": // 繪圖模式
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                    {
+                        Point origin;
+                        origin.X = Math.Min(start.X, dest.X);
+                        origin.Y = Math.Min(start.Y, dest.Y);
+                        double width = Math.Abs(start.X - dest.X);
+                        double height = Math.Abs(start.Y - dest.Y);
 
-                switch (actionType)
-                {
-                    case "draw": // 繪圖模式
-                        if (e.LeftButton == MouseButtonState.Pressed)
+                        switch (shapeType)
                         {
-                            Point origin;
-                            origin.X = Math.Min(start.X, dest.X);
-                            origin.Y = Math.Min(start.Y, dest.Y);
-                            double width = Math.Abs(start.X - dest.X);
-                            double height = Math.Abs(start.Y - dest.Y);
-
-                            switch (shapeType)
-                            {
-                                case "line":
-                                    var line = myCanvas.Children.OfType<Line>().LastOrDefault();
-                                    line.X2 = dest.X;
-                                    line.Y2 = dest.Y;
-                                    break;
-                                case "rectangle":
-                                    var rectangle = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
-                                    rectangle.Width = width;
-                                    rectangle.Height = height;
-                                    rectangle.SetValue(Canvas.LeftProperty, origin.X);
-                                    rectangle.SetValue(Canvas.TopProperty, origin.Y);
-                                    break;
-                                case "ellipse":
-                                    var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
-                                    ellipse.Width = width;
-                                    ellipse.Height = height;
-                                    ellipse.SetValue(Canvas.LeftProperty, origin.X);
-                                    ellipse.SetValue(Canvas.TopProperty, origin.Y);
-                                    break;
-                                case "polyline":
-                                    var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
-                                    polyline.Points.Add(dest);
-                                    break;
-                            }
+                            case "line":
+                                var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                                line.X2 = dest.X;
+                                line.Y2 = dest.Y;
+                                break;
+                            case "rectangle":
+                                var rectangle = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                                rectangle.Width = width;
+                                rectangle.Height = height;
+                                rectangle.SetValue(Canvas.LeftProperty, origin.X);
+                                rectangle.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+                            case "ellipse":
+                                var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                                ellipse.Width = width;
+                                ellipse.Height = height;
+                                ellipse.SetValue(Canvas.LeftProperty, origin.X);
+                                ellipse.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+                            case "polyline":
+                                var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                                polyline.Points.Add(dest);
+                                break;
                         }
-                        break;
-                    case "erase": // 橡皮擦模式
-                        var shape = e.OriginalSource as Shape;
-                        myCanvas.Cursor = Cursors.Hand;
-                        myCanvas.Children.Remove(shape);
-                        if (myCanvas.Children.Count == 0) myCanvas.Cursor = Cursors.Arrow;
-                        break;
-                }
+                    }
+                    break;
+                case "erase": // 橡皮擦模式
+                    var shape = e.OriginalSource as Shape;
+                    myCanvas.Cursor = Cursors.Hand;
+                    myCanvas.Children.Remove(shape);
+                    if (myCanvas.Children.Count == 0) myCanvas.Cursor = Cursors.Arrow;
+                    break;
             }
         }
 
+        // 顯示狀態欄資訊
         private void DisplayStatus()
         {
             if (actionType != "draw") statusAction.Content = $"{actionType}";
@@ -115,6 +108,7 @@ namespace WpfApp3
             int polylineCount = myCanvas.Children.OfType<Polyline>().Count();
             statusShape.Content = $"Lines: {lineCount}, Rectangles: {rectangleCount}, Ellipses: {ellipseCount}, Polylines: {polylineCount}";
         }
+
         // 當顏色選擇器的顏色改變時更新畫筆顏色
         private void strokeColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
@@ -126,6 +120,7 @@ namespace WpfApp3
             fillColor = fillColorPicker.SelectedColor.Value;
         }
 
+        // 當形狀按鈕被點擊時更新形狀類型
         private void ShapeButton_Click(object sender, RoutedEventArgs e)
         {
             var targetRadioButton = sender as RadioButton;
@@ -133,12 +128,14 @@ namespace WpfApp3
             actionType = "draw";
         }
 
+        // 當橡皮擦按鈕被點擊時更新動作類型
         private void EraseButton_Click(object sender, RoutedEventArgs e)
         {
             actionType = "erase";
             DisplayStatus();
         }
 
+        // 當清除按鈕被點擊時清除畫布
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             actionType = "clear";
@@ -146,11 +143,13 @@ namespace WpfApp3
             DisplayStatus();
         }
 
+        // 當筆刷粗細滑桿的值改變時更新筆刷粗細
         private void strokeThicknessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            strokeThickness = (int) strokeThicknessSlider.Value;
+            strokeThickness = (int)strokeThicknessSlider.Value;
         }
 
+        // 當滑鼠左鍵在畫布上釋放時更新最後繪製的形狀屬性
         private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Brush strokeBrush = new SolidColorBrush(strokeColor);
@@ -239,6 +238,8 @@ namespace WpfApp3
             }
             DisplayStatus();
         }
+
+        // 儲存畫布內容為圖片檔案
         private void SaveCanvas_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
